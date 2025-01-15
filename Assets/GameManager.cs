@@ -24,4 +24,10 @@ public class GameManager : MonoBehaviour {
         paddle1.Init (true);  // right paddle
         paddle2.Init (false); // left paddle
     }
+
+    void Update() {
+        if (Input.GetKey("escape")) {
+            Application.Quit();
+        }
+    }
 }
