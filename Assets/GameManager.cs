@@ -30,4 +30,6 @@ public class GameManager : MonoBehaviour {
             Application.Quit();
         }
     }
+
+    // reinstantiate ball and paddles, but only when a score occurs
 }
