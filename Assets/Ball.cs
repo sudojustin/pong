@@ -8,10 +8,28 @@ public class Ball : MonoBehaviour {
     float radius;
     Vector2 direction;
 
+    // private int _playerScore = 0;
+    // private int _computerScore = 0;
+
+    public GameObject a;
+    public UIManager script;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         direction = Vector2.one.normalized;  // direction is (1, 1) normalized
         radius = transform.localScale.x / 2; // half the width
+
+        // script = a.getComponent<UIManager>();
+    }
+
+    public void AddScore(string side) {
+        if (side == "player") {
+            // _playerScore += 1;
+            UIManager._playerScore += 1;
+        } else {
+            // _computerScore += 1;
+            UIManager._computerScore += 1;
+        }
     }
 
     // Update is called once per frame
@@ -28,6 +46,10 @@ public class Ball : MonoBehaviour {
 
         // Game over
         if (transform.position.x < GameManager.bottomLeft.x + radius && direction.x < 0) {
+            // Add 1 to playerScore
+            AddScore("player");
+            Debug.Log("Player score: " + UIManager._playerScore);
+
             Debug.Log ("Right player wins!");
 
             // For now, just freeze time
@@ -35,6 +57,10 @@ public class Ball : MonoBehaviour {
             enabled = false; // Stop updating the script
         }
         if (transform.position.x > GameManager.topRight.x - radius && direction.x > 0) {
+            // Add 1 to computerScore
+            AddScore("computer");
+            Debug.Log("Computer score: " + UIManager._computerScore);
+
             Debug.Log ("Left player wins!");
 
             // For now, just freeze time
