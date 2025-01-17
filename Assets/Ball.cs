@@ -32,6 +32,16 @@ public class Ball : MonoBehaviour {
         }
     }
 
+    public void Init() {
+        Vector2 pos = Vector2.zero;
+
+        // Place ball in the center of the screen
+        pos = new Vector2(0, 0);
+
+        // Update the ball's postion
+        transform.position = pos;
+    }
+
     // Update is called once per frame
     void Update() {
         transform.Translate (direction * speed * Time.deltaTime);
@@ -53,8 +63,10 @@ public class Ball : MonoBehaviour {
             Debug.Log ("Right player wins!");
 
             // For now, just freeze time
-            Time.timeScale = 0;
-            enabled = false; // Stop updating the script
+            if (UIManager._playerScore == 3) {
+                Time.timeScale = 0;
+                enabled = false; // Stop updating the script
+            }
         }
         if (transform.position.x > GameManager.topRight.x - radius && direction.x > 0) {
             // Add 1 to computerScore
@@ -64,8 +76,10 @@ public class Ball : MonoBehaviour {
             Debug.Log ("Left player wins!");
 
             // For now, just freeze time
-            Time.timeScale = 0;
-            enabled = false; // Stop updating the script
+            if (UIManager._computerScore == 3) {
+                Time.timeScale = 0;
+                enabled = false; // Stop updating the script
+            }
         }
     }
 
