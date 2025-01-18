@@ -10,6 +10,17 @@ public class Paddle : MonoBehaviour {
     string input;
     public bool isRight;
 
+    private int _score = 0;
+
+    public int Score {
+        get { return _score; }
+        private set { _score = value; } // restrict direct setting
+    }
+
+    public void IncreaseScore() {
+        _score += 1;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         height = transform.localScale.y;

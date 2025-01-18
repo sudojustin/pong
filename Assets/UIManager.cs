@@ -4,11 +4,8 @@ using TMPro;
 
 public class UIManager : MonoBehaviour {
     
-    [SerializeField]
-    public static int _playerScore;
-
-    [SerializeField]
-    public static int _computerScore;
+    public int _playerScore;
+    public int _computerScore;
 
     [SerializeField]
     private TMP_Text _playerScoreText;
@@ -21,20 +18,23 @@ public class UIManager : MonoBehaviour {
         UpdateScoreUI();
     }
 
-    // Update is called once per frame
-    void Update() {
+    public void AddToPlayerScore() {
+        _playerScore += 1;
+        UpdateScoreUI();
+    }
+
+    public void AddToComputerScore() {
+        _computerScore += 1;
         UpdateScoreUI();
     }
 
     // Method to update the score UI
     private void UpdateScoreUI() {
         if (_playerScoreText != null) {
-            _playerScoreText.text = "Score " + _playerScore;
-            // _playerScoreText.text =  _playerScore.ToString();
+            _playerScoreText.text = "Score " + _playerScore.ToString();
         } 
 
         if (_computerScoreText != null) {
-            // _computerScoreText.text = "COMPUTER " + _computerScore;
             _computerScoreText.text = _computerScore.ToString();
         }
     }

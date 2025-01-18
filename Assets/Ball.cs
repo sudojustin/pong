@@ -8,38 +8,22 @@ public class Ball : MonoBehaviour {
     float radius;
     Vector2 direction;
 
-    // private int _playerScore = 0;
-    // private int _computerScore = 0;
+    private Paddle paddleLeft;
+    private Paddle paddleRight;
 
-    public GameObject a;
-    public UIManager script;
+    private UIManager uiManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         direction = Vector2.one.normalized;  // direction is (1, 1) normalized
         radius = transform.localScale.x / 2; // half the width
 
-        // script = a.getComponent<UIManager>();
+        uiManager = FindFirstObjectByType<UIManager>();
     }
 
-    public void AddScore(string side) {
-        if (side == "player") {
-            // _playerScore += 1;
-            UIManager._playerScore += 1;
-        } else {
-            // _computerScore += 1;
-            UIManager._computerScore += 1;
-        }
-    }
-
-    public void Init() {
-        Vector2 pos = Vector2.zero;
-
-        // Place ball in the center of the screen
-        pos = new Vector2(0, 0);
-
-        // Update the ball's postion
-        transform.position = pos;
+    public void InitPaddles(Paddle left, Paddle right) {
+        paddleLeft = left;
+        paddleRight = right;
     }
 
     // Update is called once per frame
@@ -50,6 +34,7 @@ public class Ball : MonoBehaviour {
         if (transform.position.y < GameManager.bottomLeft.y + radius && direction.y < 0) {
             direction.y = -direction.y;
         }
+
         if (transform.position.y > GameManager.topRight.y - radius && direction.y > 0) {
             direction.y = -direction.y;
         }
@@ -57,32 +42,41 @@ public class Ball : MonoBehaviour {
         // Game over
         if (transform.position.x < GameManager.bottomLeft.x + radius && direction.x < 0) {
             // Add 1 to playerScore
-            AddScore("player");
-            Debug.Log("Player score: " + UIManager._playerScore);
+            paddleRight.IncreaseScore();
+            uiManager.AddToPlayerScore();
+            Debug.Log("Player score: " + paddleRight.Score);
 
-            Debug.Log ("Right player wins!");
-
-            // For now, just freeze time
-            if (UIManager._playerScore == 3) {
+            if (paddleRight.Score == 3) {
+                Debug.Log("Player wins!");
                 Time.timeScale = 0;
                 enabled = false; // Stop updating the script
             }
         }
+
         if (transform.position.x > GameManager.topRight.x - radius && direction.x > 0) {
             // Add 1 to computerScore
-            AddScore("computer");
-            Debug.Log("Computer score: " + UIManager._computerScore);
+            paddleLeft.IncreaseScore();
+            uiManager.AddToComputerScore();
+            Debug.Log("Computer score: " + paddleLeft.Score);
 
-            Debug.Log ("Left player wins!");
-
-            // For now, just freeze time
-            if (UIManager._computerScore == 3) {
+            if (paddleLeft.Score == 3) {
+                Debug.Log("Computer wins!");
                 Time.timeScale = 0;
                 enabled = false; // Stop updating the script
             }
         }
     }
 
+    public void ResetBall() {
+        Vector2 pos = Vector2.zero;
+
+        // Place ball in the center of the screen
+        pos = new Vector2(0, 0);
+
+        // Update the ball's postion
+        transform.position = pos;
+   }
+ 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Paddle") {
             bool isRight = other.GetComponent<Paddle> ().isRight;

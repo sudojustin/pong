@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour {
     private int paddleLeftScore = 0;
     private int paddleRightScore = 0;
 
-    Ball ball1;
-    Paddle paddle1, paddle2;
+    Ball ballInstance;
+    Paddle paddleRight, paddleLeft;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
@@ -21,14 +21,15 @@ public class GameManager : MonoBehaviour {
         bottomLeft = Camera.main.ScreenToWorldPoint (new Vector2 (0, 0));
         topRight = Camera.main.ScreenToWorldPoint (new Vector2 (Screen.width, Screen.height));
 
-        // Create ball
-        ball1 = Instantiate (ball) as Ball;
-
         // Create two paddles
-        paddle1 = Instantiate (paddle) as Paddle;
-        paddle2 = Instantiate (paddle) as Paddle;
-        paddle1.Init (true);  // right paddle
-        paddle2.Init (false); // left paddle
+        paddleRight = Instantiate (paddle) as Paddle;
+        paddleLeft = Instantiate (paddle) as Paddle;
+        paddleRight.Init (true);  // right paddle
+        paddleLeft.Init (false);  // left paddle
+
+        // Create ball
+        ballInstance = Instantiate (ball) as Ball;
+        ballInstance.InitPaddles(paddleLeft, paddleRight);
     }
 
     void Update() {
@@ -37,26 +38,26 @@ public class GameManager : MonoBehaviour {
         }
 
         // Reinstantiate ball and paddles, but only when a score occurs
-        if (UIManager._computerScore != paddleLeftScore) {
+        if (paddleLeft.Score != paddleLeftScore) {
             paddleLeftScore += 1;
 
             // Reposition paddles
-            paddle1.Init (true);
-            paddle2.Init (false);
+            paddleRight.Init (true);
+            paddleLeft.Init (false);
 
             // Reposition ball
-            ball1.Init ();
+            ballInstance.ResetBall ();
         }
 
-        if (UIManager._playerScore != paddleRightScore) {
+        if (paddleRight.Score != paddleRightScore) {
             paddleRightScore += 1;
 
             // Reposition paddles
-            paddle1.Init (true);
-            paddle2.Init (false);
+            paddleRight.Init (true);
+            paddleLeft.Init (false);
 
             // Reposition ball
-            ball1.Init ();
+            ballInstance.ResetBall ();
         }
     }
 }
