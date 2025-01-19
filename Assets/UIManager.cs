@@ -4,8 +4,8 @@ using TMPro;
 
 public class UIManager : MonoBehaviour {
     
-    public int _playerScore;
-    public int _computerScore;
+    public int _playerScore = 0;
+    public int _computerScore = 0;
 
     [SerializeField]
     private TMP_Text _playerScoreText;
