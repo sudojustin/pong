@@ -12,6 +12,8 @@
 - Select your desired platform to install and then download
 - Open Unity Hub, select the add dropdown menu, select add project from disk and find the folder the you cloned earlier
 
+- If you see missing TMP assets (e.g., text not rendering), go to Window > TextMeshPro > Import TMP Essentials and import them.
+
 ## Controls
 
 Space bar: pause/unpause game
